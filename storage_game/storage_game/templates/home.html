@@ -1,0 +1,12 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Меню игры</h1>
+  <div class="menu">
+    <button onclick="window.location.href='{% url 'game' %}'">Играть</button>
+    <button onclick="window.location.href='{% url 'user_results' %}'">Результаты</button>
+    <button onclick="window.location.href='{% url 'rules' %}'">Правила</button>
+    <button onclick="window.location.href='{% url 'logout' %}'">Выйти из игры</button>
+  </div>
+{% endblock %}

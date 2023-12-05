@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Игра</h1>
+    {% if question.image_for_question %}
+    <div class="img-container">
+        <img src="{{ question.image_for_question }}" alt="Изображение вопроса">
+    </div>
+    {% endif %}
+    <p>{{ question.question_text }}</p>
+
+    <form method="post" action="{% url 'game' %}">
+        {% csrf_token %}
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+        <div class="button-grid">
+            {% for answer in answers %}
+                <button type="submit" name="answer" value="{{ answer }}">{{ answer }}</button>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+{% endblock %}

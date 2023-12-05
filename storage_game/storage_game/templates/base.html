@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}KIT.GAME{% endblock %}</title>
+    <style>
+        body {
+            background-color: #333333;
+            color: #FFF9CF;
+            margin: 0;
+            font-family: Finlandica, sans-serif;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1px;
+            padding: 5px;
+            flex-direction: column;
+        }
+
+        .header img {
+            height: 230px;
+            width: 400px;
+            margin-right: 0px;
+        }
+
+        .header-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .subtext {
+            font-size: 1.0em;
+            margin-top: 5px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1px 0;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 300px;
+            margin: 25px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"], input[type="submit"], .btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #FFF9CF;
+            color: #333333;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #FFF9CF;
+            color: #333333;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0,3s;
+        }
+
+        input[type="submit"]:hover, .btn:hover {
+            background-color: #333333;
+            color: #FFF9CF;
+        }
+
+        .instruction-btn {
+            font-size: 1.0em;
+            background-color: #333333;
+            color: #FFF9CF
+        }
+
+        button {
+             padding: 10px 20px;
+             font-size: 1em;
+             border: none;
+             border-radius: 5px;
+             cursor: pointer;
+             background-color: #FFF9CF;
+             color: #333333;
+             display: block;
+             width: 100%;
+             box-sizing: border-box;
+             margin-bottom: 20px;
+             text-align: center;
+             text-decoration: none;
+             transition: background-color 0.3s, color 0.3s;
+        }
+
+        button:hover {
+             background-color: #333333;
+             color: #FFF9CF;
+        }
+
+        input[type="text"], input[type="password"] {
+             background-color: #333333;
+             color: #FFF9CF;
+             padding: 5px;
+             border: none;
+             border-radius: 5px;
+             margin-bottom: 5px;
+             width: 50%;
+        }
+
+        .img-container img {
+              max-width: 100%;
+              height: auto;
+              cursor: pointer;
+              transition: transform 0.2s;
+              border-radius: 10px;
+              border: 2px solid #FFF9CF;
+        }
+
+        .img-container:hover img:hover {
+              transform: scale(1.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="{% block logo %}https://i.ibb.co/FXFR9nZ/image.png{% endblock %}" alt="logo">
+        </div>
+        <div>
+            {% block header %}
+            <div class="header-text">{% block header_text %}KIT.GAME: СКЛАД{% endblock %}</div>
+            <div class="subtext">{% block subtext %}Добро пожаловать в игру{% endblock %}</div>
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="container">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,10 @@
+<!-- rules.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Правила игры</h1>
+        <p>Здесь вы можете написать правила вашей игры. Это могут быть инструкции о том, как играть, какие правила следует соблюдать, и так далее.</p>
+        <button onclick="window.location.href='{% url 'home' %}'">Вернуться в меню</button>
+    </div>
+{% endblock %}
