@@ -1,22 +1,16 @@
-"""
-URL configuration for storage_game project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
+from game.views import login_view, home, logout_view, play, result, rules, game, resultinfo, user_results
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', login_view, name='login'),
+    path('home/', home, name='home'),  # Здесь login_required уже применено в views.py
+    path('play/', play, name='game'),
+    path('results/', result, name='result'),  # Используйте result вместо results
+    path('rules/', rules, name='rules'),
+    path('logout/', logout_view, name='logout'),
+    path('game/', game, name='game'),
+    path('resultinfo/', resultinfo, name='resultinfo'),
+    path('user_results/', user_results, name='user_results'),
 ]
