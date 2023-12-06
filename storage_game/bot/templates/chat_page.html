@@ -1,0 +1,61 @@
+{% extends 'base.html' %} <!-- Замените на имя вашего базового шаблона -->
+
+{% block title %}Чат-бот{% endblock %}
+
+{% block content %}
+<div id="chat-box" style="border:1px solid #FFF9CF; padding:10px; min-height:200px; max-height: 400px; margin-bottom: 20px; border-radius: 15px;">
+    <!-- Сообщения чата будут здесь -->
+</div>
+
+<div>
+    {% for button in buttons %}
+        <!-- Кнопка для отображения подменю и содержимого -->
+        <button class="btn" type="button" onclick="showSubMenu('submenu-{{ button.id }}', '{{ button.response_text|escapejs }}', '{{ button.image_url }}')">
+            {{ button.title }}
+        </button>
+
+        <!-- Скрытое подменю для каждой кнопки -->
+        <div id="submenu-{{ button.id }}" class="submenu" style="display:none; margin-bottom:10px;">
+            {% for submenu in button.submenus.all %}
+                <!-- Кнопка внутри подменю -->
+                <button class="btn" onclick="showResponse('{{ submenu.response_text|escapejs }}', '{{ submenu.image_url }}')">
+                    {{ submenu.title }}
+                </button>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function showSubMenu(submenuId, responseText, imageUrl) {
+        // Отображение содержимого кнопки верхнего уровня
+        showResponse(responseText, imageUrl);
+
+        // Управление видимостью подменю
+        document.querySelectorAll('.submenu').forEach(submenu => {
+            submenu.style.display = 'none';
+        });
+
+        const submenu = document.getElementById(submenuId);
+        if (submenu) {
+            submenu.style.display = 'block';
+        }
+    }
+
+    function showResponse(responseText, imageUrl) {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.innerHTML = ''; // Очищаем содержимое chat-box
+
+        let message = '';
+        if (imageUrl) {
+            // Добавляем уникальный параметр к URL изображения для предотвращения кэширования
+            const uniqueImageUrl = imageUrl + "?t=" + new Date().getTime();
+            message += `<div class="img-container" style="margin-bottom: 20px;"><img src="${uniqueImageUrl}" alt="Image" style="max-width: 100%; height: auto;"></div>`;
+        }
+        message += `<div style="color:#FFF9CF;">${responseText}</div>`;
+        chatBox.innerHTML = message;
+    }
+</script>
+{% endblock %}
