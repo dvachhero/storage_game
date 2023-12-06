@@ -155,11 +155,10 @@
 </head>
 <body>
     <div class="header">
+        {% block header %}
         <div class="logo-container">
             <img src="{% block logo %}https://i.ibb.co/FXFR9nZ/image.png{% endblock %}" alt="logo">
         </div>
-        <div>
-            {% block header %}
             <div class="header-text">{% block header_text %}KIT.GAME: СКЛАД{% endblock %}</div>
             <div class="subtext">{% block subtext %}Добро пожаловать в игру{% endblock %}</div>
             {% endblock %}
