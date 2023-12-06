@@ -2,6 +2,10 @@
 
 {% block title %}Чат-бот{% endblock %}
 
+{% block subtext %}
+    <div class="subtext">Вы можете выбрать интересующий вас вопрос</div>
+{% endblock %}
+
 {% block content %}
 <div id="chat-box" style="border:1px solid #FFF9CF; padding:10px; min-height:200px; max-height: 400px; margin-bottom: 20px; border-radius: 10px;">
     <!-- Сообщения чата будут здесь -->
@@ -25,6 +29,8 @@
         </div>
     {% endfor %}
 </div>
+
+<button onclick="window.location.href='{% url 'home' %}'">Вернуться в меню</button>
 {% endblock %}
 
 {% block scripts %}
