@@ -1,10 +1,13 @@
 <!-- resultinfo.html -->
 {% extends 'base.html' %}
 
+{% block header %}
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <h1>Результаты</h1>
         <p>Количество правильных ответов: <br> <br> {{ correct_answers }} из {{ total_questions }} </p>
-        <button onclick="window.location.href='{% url 'home' %}'">Вернуться в меню</button>
+        <button onclick="window.location.href='{% url 'gamemenu' %}'">Вернуться в меню</button>
 </div>
 {% endblock %}

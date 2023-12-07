@@ -9,6 +9,8 @@
 {% block content %}
 <div id="chat-box" style="border:2px solid #FFF9CF; padding:10px; min-height:200px; max-height: 400px; margin-bottom: 20px; border-radius: 10px;">
     <!-- Сообщения чата будут здесь -->
+    <img src="http://89.223.64.243/images/kitmentorsklad.png" alt="Заглушка" style="max-width: 100%; height: auto;">
+    <p style="color:#FFF9CF; text-align: center;">Какой у вас вопрос?</p>
 </div>
 
 <div>
@@ -42,11 +44,24 @@
         // Управление видимостью подменю
         document.querySelectorAll('.submenu').forEach(submenu => {
             submenu.style.display = 'none';
+            adjustButtonMargins(submenu);
         });
 
         const submenu = document.getElementById(submenuId);
         if (submenu) {
             submenu.style.display = 'block';
+            adjustButtonMargins(submenu);
+        }
+    }
+
+    function adjustButtonMargins(submenu) {
+        // Устанавливаем отступы для всех кнопок в подменю
+        let buttons = submenu.querySelectorAll('.btn');
+        buttons.forEach(button => button.style.marginBottom = '10px');
+
+        // Убираем отступ у последней кнопки
+        if (buttons.length) {
+            buttons[buttons.length - 1].style.marginBottom = '0';
         }
     }
 
