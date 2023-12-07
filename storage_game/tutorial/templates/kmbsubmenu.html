@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Подменю{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Выберите пункт подменю:</h1>
+    {% for submenu in submenus %}
+        <a href="{% url 'content' submenu.id %}" class="btn">{{ submenu.title }}</a>
+    {% endfor %}
+</div>
+<a href="{% url 'kmb' %}" class="btn">Назад к курсам</a>
+{% endblock %}

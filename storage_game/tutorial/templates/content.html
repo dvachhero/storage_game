@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Контент{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Контент:</h1>
+    {% for content in contents %}
+        <div id="chat-box" style="border:2px solid #FFF9CF; padding:10px; min-height:200px; max-height: 400px; overflow-y: auto; margin-bottom: 20px; border-radius: 10px;">
+            {% if content.image_url %}
+                <img src="{{ content.image_url }}" alt="Изображение" style="max-width: 100%; height: auto;">
+            {% endif %}
+            {% if content.video_url %}
+                <video width="100%" controls>
+                    <source src="{{ content.video_url }}" type="video/mp4">
+                    Ваш браузер не поддерживает видео тег.
+                </video>
+            {% endif %}
+            <p>{{ content.text }}</p>
+        </div>
+    {% endfor %}
+</div>
+<a href="{% url 'kmbsubmenu' button_id %}" class="btn">Назад к темам</a>
+{% endblock %}

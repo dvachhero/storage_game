@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from game.views import login_view, home, logout_view, play, result, rules, game, resultinfo, user_results
 from bot.views import chat_page
-from tutorial.views import kmb_view
+from tutorial.views import kmb_view, kmbsubmenu_view, content_view
 from django.shortcuts import redirect
 
 def redirect_to_login(request):
@@ -22,4 +22,6 @@ urlpatterns = [
     path('chat/', chat_page, name='chat_page'),
     path('', redirect_to_login),
     path('kmb/', kmb_view, name='kmb'),
+    path('kmbsubmenu/<int:button_id>/', kmbsubmenu_view, name='kmbsubmenu'),
+    path('content/<int:submenu_id>/', content_view, name='content'),
 ]
