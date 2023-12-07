@@ -1,8 +1,20 @@
 from django.contrib import admin
-from .models import QuestionStorageGame, AnswerStorageGame, UserProfile, Position
+from .models import QuestionStorageGame, AnswerStorageGame, UserProfile, Position, AnswerTraining, QuestionTraining
 
 admin.site.register(QuestionStorageGame)
 admin.site.register(Position)
+
+class QuestionTrainingAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in QuestionTraining._meta.fields]
+    list_filter = [field.name for field in QuestionTraining._meta.fields if field.name != 'image_for_question']  # исключаем поле изображения
+
+admin.site.register(QuestionTraining, QuestionTrainingAdmin)
+
+class AnswerTrainingAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in AnswerTraining._meta.fields]
+    list_filter = [field.name for field in AnswerTraining._meta.fields]
+
+admin.site.register(AnswerTraining, AnswerTrainingAdmin)
 
 @admin.register(AnswerStorageGame)
 class AnswerStorageGameAdmin(admin.ModelAdmin):

@@ -18,20 +18,6 @@ class QuestionStorageGame(models.Model):
     class Meta:
         db_table = 'questions_storage'
 
-class QuestionStorageGameTraining(models.Model):
-    question_text = models.TextField()
-    answer1 = models.CharField(max_length=255)
-    answer2 = models.CharField(max_length=255)
-    answer3 = models.CharField(max_length=255)
-    answer4 = models.CharField(max_length=255)
-    image_for_question = models.CharField(max_length=255, blank=True, null=True)
-    correct_answer = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.question_text
-
-    class Meta:
-        db_table = 'questions_storage_training'
 
 class AnswerStorageGame(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -45,16 +31,6 @@ class AnswerStorageGame(models.Model):
     class Meta:
         db_table = 'answers_storage'
 
-class AnswerStorageGameTraining(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(QuestionStorageGameTraining, on_delete=models.CASCADE)
-    correct_answers_training = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.question.question_text}"
-
-    class Meta:
-        db_table = 'answers_storage_training'
 
 class Position(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -84,3 +60,26 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     else:
         instance.profile.save()
 
+
+
+#Для тренировки модели
+class QuestionTraining(models.Model):
+    question_text = models.CharField(max_length=255)
+    answer_1 = models.CharField(max_length=100)
+    answer_2 = models.CharField(max_length=100)
+    answer_3 = models.CharField(max_length=100)
+    answer_4 = models.CharField(max_length=100)
+    image_for_question = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.question_text
+
+class AnswerTraining(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(QuestionTraining, on_delete=models.CASCADE)
+    selected_answer = models.CharField(max_length=100)
+    is_correct = models.BooleanField()
+    correct_sequence = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.question.question_text}"

@@ -2,10 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import QuestionStorageGame, AnswerStorageGame, QuestionStorageGameTraining, AnswerStorageGameTraining
+from .models import QuestionStorageGame, AnswerStorageGame, QuestionTraining, AnswerTraining
 from django.db.models import F
 import random
-from random import choice, shuffle
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 def login_view(request):
@@ -97,51 +98,53 @@ def user_results(request):
 def game_menu(request):
     return render(request, 'gamemenu.html')
 
-#ДЛЯ ТРЕНИРОВКИ
+#Для тренировки
+def game_training(request):
+    # Инициализируем текущую серию правильных ответов
+    if 'current_sequence' not in request.session:
+        request.session['current_sequence'] = 0
 
-def get_random_question():
-    questions = list(QuestionStorageGameTraining.objects.all())
-    return choice(questions) if questions else None
-
-def get_shuffled_answers(question):
-    answers = [question.answer1, question.answer2, question.answer3, question.answer4]
-    shuffle(answers)
-    return answers
-
-@login_required(login_url='/login/')
-def GameTrainingView(request):
     if request.method == 'POST':
         question_id = request.POST.get('question_id')
         selected_answer = request.POST.get('answer')
-        question = get_object_or_404(QuestionStorageGameTraining, id=question_id)
+        question = get_object_or_404(QuestionTraining, pk=question_id)
 
-        correct = selected_answer == question.answer1
+        # Проверяем правильность ответа
+        is_correct = (selected_answer == question.answer_1)
 
-        user_answer, created = AnswerStorageGameTraining.objects.get_or_create(
-            user=request.user,
-            question=question,
-        )
+        if is_correct:
+            # Увеличиваем текущую серию в сессии
+            request.session['current_sequence'] += 1
+        else:
+            # Получаем существующую запись или создаем новую
+            user_answer, created = AnswerTraining.objects.get_or_create(
+                user=request.user,
+                defaults={'correct_sequence': request.session['current_sequence']}
+            )
 
-        if correct:
-            user_answer.correct_answers_training += 1
-            user_answer.save()
+            # Обновляем запись, если текущая серия лучше
+            if request.session['current_sequence'] > user_answer.correct_sequence:
+                user_answer.correct_sequence = request.session['current_sequence']
+                user_answer.save()
 
+            # Сбрасываем текущую серию в сессии и перенаправляем на страницу с результатами
+            request.session['current_sequence'] = 0
+            return HttpResponseRedirect(reverse('resultinfotraining'))
 
-        # Перенаправляем пользователя на следующий вопрос
-        return redirect('gametraining')
+    # Выбор случайного вопроса и перемешивание ответов
+    questions = list(QuestionTraining.objects.all())
+    random_question = random.choice(questions) if questions else None
+    answers = []
 
-    question = get_random_question()
-    if not question:
-        return render(request, 'no_questions.html')  # Представление, если нет вопросов
+    if random_question:
+        answers = [random_question.answer_1, random_question.answer_2, random_question.answer_3, random_question.answer_4]
+        random.shuffle(answers)
 
-    answers = get_shuffled_answers(question)
-    return render(request, 'gametraining.html', {'question': question, 'answers': answers})
+    return render(request, 'gametraining.html', {'question': random_question, 'answers': answers})
 
-@login_required(login_url='/login/')
-def ResultInfoTrainingView(request):
-    correct_answers = request.session.get('correct_answers_training', 0)
-    # Здесь можно добавить логику для записи лучшего результата пользователя
-    request.session['correct_answers'] = 0  # Сбросить счетчик
-    return render(request, 'resultinfotraining.html', {'correct_answers_training': correct_answers})
+def result_info_training(request):
+    # Получаем последний ответ пользователя
+    last_answer = AnswerTraining.objects.filter(user=request.user).order_by('-id').first()
+    correct_sequence = last_answer.correct_sequence if last_answer else 0
 
-
+    return render(request, 'resultinfotraining.html', {'correct_answers_training': correct_sequence})
