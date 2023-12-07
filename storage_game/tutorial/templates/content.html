@@ -2,6 +2,12 @@
 
 {% block title %}Контент{% endblock %}
 
+{% block header %}
+        <div class="logo-container">
+            <img src="{% block logo %}https://i.ibb.co/FXFR9nZ/image.png{% endblock %}" alt="logo">
+        </div>
+{% endblock %}
+
 {% block content %}
 <div>
     <h1>Контент:</h1>
@@ -19,6 +25,18 @@
             <p>{{ content.text }}</p>
         </div>
     {% endfor %}
+
+<div class="pagination" style="text-align: center; margin-top: 20px; display: flex; justify-content: center; align-items: center;">
+    {% if contents.has_previous or contents.has_next %}
+        {% if contents.has_previous %}
+            <a href="?page={{ contents.previous_page_number }}" class="btn" style="flex: 1; {% if not contents.has_next %}width: 100%;{% else %}margin-right: 5px;{% endif %}">Назад</a>
+        {% endif %}
+
+        {% if contents.has_next %}
+            <a href="?page={{ contents.next_page_number }}" class="btn" style="flex: 1; {% if not contents.has_previous %}width: 100%;{% else %}margin-left: 5px;{% endif %}">Далее</a>
+        {% endif %}
+    {% endif %}
 </div>
+
 <a href="{% url 'kmbsubmenu' button_id %}" class="btn">Назад к темам</a>
 {% endblock %}
