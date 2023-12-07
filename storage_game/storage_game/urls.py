@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from game.views import login_view, home, logout_view, play, result, rules, game, resultinfo, user_results, game_menu
+from game.views import login_view, home, logout_view, play, result, rules, game, resultinfo, user_results, game_menu, GameTrainingView, ResultInfoTrainingView
 from bot.views import chat_page
 from tutorial.views import kmb_view, kmbsubmenu_view, content_view
 from django.shortcuts import redirect
@@ -25,4 +25,6 @@ urlpatterns = [
     path('kmbsubmenu/<int:button_id>/', kmbsubmenu_view, name='kmbsubmenu'),
     path('content/<int:submenu_id>/', content_view, name='content'),
     path('gamemenu/', game_menu, name='gamemenu'),
+    path('gametraining/', GameTrainingView, name='gametraining'),
+    path('resultinfotraining/', ResultInfoTrainingView, name='resultinfotraining'),
 ]
