@@ -1,0 +1,70 @@
+{% extends 'base.html' %} <!-- Замените на имя вашего базового шаблона -->
+
+{% block title %}Курс{% endblock %}
+
+{% block header %}
+    <!-- Пустой блок, убирает весь header -->
+{% endblock %}
+
+{% block content %}
+<!-- Блок с контентом будет отображаться только если current_content существует -->
+{% if current_content %}
+<div id="chat-box" style="border:2px solid #FFF9CF; padding:10px; min-height:200px; max-height: 400px; overflow-y: auto; margin-bottom: 20px; border-radius: 10px;">
+    {% if current_content.image_url %}
+        <img src="{{ current_content.image_url }}" alt="Content Image" style="max-width: 100%; height: auto;">
+    {% elif current_content.video_url %}
+        <video width="100%" controls>
+            <source src="{{ current_content.video_url }}" type="video/mp4">
+            Ваш браузер не поддерживает видео тег.
+        </video>
+    {% endif %}
+    <p style="color:#FFF9CF;">{{ current_content.text }}</p>
+</div>
+{% endif %}
+
+{% if not next_content and current_content %}
+    <p>Вы успешно прошли курс!</p>
+{% endif %}
+
+{% if next_content %}
+    <a href="?submenu_id={{ next_content.submenu.id }}&content_id={{ next_content.id }}" class="btn">Далее</a>
+{% endif %}
+
+<div>
+    {% for button in buttons %}
+    {% if not button.title == "kmbmenu" %}
+    <button class="btn" type="button" onclick="showSubMenu('{{ button.id }}')">
+        {{ button.title }}
+    </button>
+
+    <!-- Блок с подменю будет отображаться только если current_submenu связан с этой кнопкой -->
+    <div id="submenu-{{ button.id }}" class="submenu" style="display: {% if current_submenu and button.id == current_submenu.id %}block{% else %}none{% endif %}; margin-bottom:10px;">
+        {% for submenu in button.submenus.all %}
+        {% if not submenu.title == "kmbmenu" %}
+        <a href="?submenu_id={{ submenu.id }}" class="btn">
+            {{ submenu.title }}
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<a href="{% url 'kmb' %}" class="btn">Вернуться к курсам</a>
+<a href="{% url 'home' %}" class="btn">Вернуться в меню приложения</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function showSubMenu(submenuId) {
+        document.querySelectorAll('.submenu').forEach(submenu => {
+            submenu.style.display = 'none';
+        });
+
+        const submenu = document.getElementById('submenu-' + submenuId);
+        if (submenu) {
+            submenu.style.display = 'block';
+        }
+    }
+</script>
+{% endblock %}
