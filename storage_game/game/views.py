@@ -86,8 +86,13 @@ def resultinfo(request):
     total_questions = QuestionStorageGame.objects.count()
     return render(request, 'resultinfo.html', {'correct_answers': correct_answers, 'total_questions': total_questions})
 
+@login_required(login_url='/login/')
 def user_results(request):
     user_answers = AnswerStorageGame.objects.filter(user=request.user)
     return render(request, 'user_results.html', {'user_answers': user_answers})
+
+@login_required(login_url='/login/')
+def game_menu(request):
+    return render(request, 'gamemenu.html')
 
 

@@ -1,0 +1,12 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Выбор режима игры</h1>
+  <div class="menu">
+    <button onclick="window.location.href='{% url 'game' %}'">Ежемесячное тестирование</button>
+    <button onclick="window.location.href='{% url 'game' %}'">Тренировка знаний</button>
+    <button onclick="window.location.href='{% url 'user_results' %}'">Результаты</button>
+    <button onclick="window.location.href='{% url 'home' %}'">Назад в меню приложения</button>
+  </div>
+{% endblock %}
