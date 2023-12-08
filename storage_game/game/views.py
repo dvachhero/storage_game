@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import QuestionStorageGame, AnswerStorageGame, QuestionTraining, AnswerTraining
+from .models import QuestionStorageGame, AnswerStorageGame, QuestionTraining, AnswerTraining, KmbAnswerStorage, KmbQuestionStorage
 from django.db.models import F
 import random
 from django.urls import reverse
@@ -148,3 +148,55 @@ def result_info_training(request):
     correct_sequence = last_answer.correct_sequence if last_answer else 0
 
     return render(request, 'resultinfotraining.html', {'correct_answers_training': correct_sequence})
+
+#Курс молодого бойца игра
+
+@login_required(login_url='/login/')
+def game_kmb(request):
+    question = KmbQuestionStorage.objects.filter(
+        id__gt=request.user.profile.last_question_id_kmb).first()  # Используем last_question_id_kmb здесь
+
+    if question is None:
+        answers = KmbAnswerStorage.objects.filter(
+            user=request.user, right_answer=F('answer')).count()
+        return redirect('resultinfo_kmb')
+
+    if request.method == "POST":
+        selected_answer = request.POST.get('answer')
+        question_id = request.POST.get('question_id')
+        question = get_object_or_404(KmbQuestionStorage, pk=question_id)
+
+        existing_answer = KmbAnswerStorage.objects.filter(
+            user=request.user, question=question).first()
+
+        if existing_answer:
+            existing_answer.answer = selected_answer
+            existing_answer.save()
+        else:
+            KmbAnswerStorage.objects.create(
+                user=request.user,
+                question=question,
+                answer=selected_answer,
+                right_answer=question.correct_answer
+            )
+
+        request.user.profile.last_question_id_kmb = question.id  # Обновляем last_question_id_kmb
+        request.user.profile.save()
+        return redirect('kmb')
+
+    answers = [question.answer1, question.answer2, question.answer3, question.answer4]
+    random.shuffle(answers)
+    return render(request, 'kmb.html', {'question': question, 'answers': answers})
+
+@login_required(login_url='/login/')
+def resultinfo_kmb(request):
+    correct_answers = KmbAnswerStorage.objects.filter(
+        user=request.user, right_answer=F('answer')).count()
+
+    total_questions = KmbQuestionStorage.objects.count()
+    return render(request, 'resultinfokmb.html', {'correct_answers': correct_answers, 'total_questions': total_questions})
+
+@login_required(login_url='/login/')
+def user_results_kmb(request):
+    user_answers = KmbAnswerStorage.objects.filter(user=request.user)
+    return render(request, 'user_results_kmb.html', {'user_answers': user_answers})

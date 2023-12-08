@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Результаты пользователя</h1>
+    <p>Логин пользователя: {{ user.username }}</p>
+    <h2>Ответы пользователя:</h2>
+    <ul style="list-style: none; padding: 0;">
+        {% for answer in user_answers %}
+            <li style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+                <strong style="font-weight: bold;">Вопрос:</strong> {{ answer.question.question_text }}<br> <br>
+                <strong style="font-weight: bold;">Выбранный ответ:</strong> {{ answer.answer }}<br> <br>
+                <strong style="font-weight: bold;">Правильный ответ:</strong> {{ answer.right_answer }}<br> <br>
+            </li>
+        {% endfor %}
+    </ul>
+    <button onclick="window.location.href='{% url 'kmb' %}'">Вернуться в меню</button>
+</div>
+{% endblock %}

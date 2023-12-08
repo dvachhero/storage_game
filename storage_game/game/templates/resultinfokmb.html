@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Результаты</h1>
+    <p>Количество правильных ответов: <br> <br> {{ correct_answers }} из {{ total_questions }} </p>
+    <a href="{% url 'kmb' %}" class="btn">Вернуться в меню</a>
+</div>
+{% endblock %}

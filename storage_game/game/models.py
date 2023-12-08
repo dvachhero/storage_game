@@ -43,6 +43,7 @@ class UserProfile(models.Model):
     full_name = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     last_question_id = models.IntegerField(default=0)
+    last_question_id_kmb = models.IntegerField(default=0)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
@@ -56,7 +57,7 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance, last_question_id=0)
+        UserProfile.objects.create(user=instance, last_question_id=0, last_question_id_kmb=0)
     else:
         instance.profile.save()
 
@@ -83,3 +84,34 @@ class AnswerTraining(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.question.question_text}"
+
+
+#Курс молодого бойца вопросы и ответы
+
+class KmbQuestionStorage(models.Model):
+    question_text = models.TextField()
+    answer1 = models.CharField(max_length=255)
+    answer2 = models.CharField(max_length=255)
+    answer3 = models.CharField(max_length=255)
+    answer4 = models.CharField(max_length=255)
+    image_for_question = models.CharField(max_length=255, blank=True, null=True)
+    correct_answer = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.question_text
+
+    class Meta:
+        db_table = 'kmb_questions_storage'
+
+
+class KmbAnswerStorage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(KmbQuestionStorage, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=255)
+    right_answer = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.question.question_text}"
+
+    class Meta:
+        db_table = 'kmb_answers_storage'

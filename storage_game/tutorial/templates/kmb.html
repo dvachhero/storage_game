@@ -13,6 +13,7 @@
         <a href="{% url 'kmbsubmenu' button.id %}" class="btn">{{ button.title }}</a>
     {% endfor %}
 </div>
-<a href="{% url 'gamemenu' %}" class="btn">Подтверди свои знания</a>
+<a href="{% url 'game_kmb' %}" class="btn">Подтверди свои знания</a>
+<a href="{% url 'user_results_kmb' %}" class="btn">Результаты теста</a>
 <a href="{% url 'home' %}" class="btn">Назад в меню приложения</a>
 {% endblock %}
