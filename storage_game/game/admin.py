@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import QuestionStorageGame, AnswerStorageGame, UserProfile, Position, AnswerTraining, QuestionTraining
+from .models import QuestionStorageGame, AnswerStorageGame, UserProfile, Position, AnswerTraining, QuestionTraining, KmbAnswerStorage, KmbQuestionStorage
 
 admin.site.register(QuestionStorageGame)
 admin.site.register(Position)
@@ -29,12 +29,24 @@ class AnswerStorageGameAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'full_name', 'city', 'position', 'last_question_id')
+    list_display = ('user', 'full_name', 'city', 'position', 'last_question_id', 'last_question_id_kmb')
     list_filter = ('position',)
     search_fields = ('full_name', 'city')
-    fields = ('user', 'full_name', 'city', 'position', 'last_question_id')
+    fields = ('user', 'full_name', 'city', 'position', 'last_question_id', 'last_question_id_kmb')
     actions = ['set_last_question_id_to_zero']
 
     def set_last_question_id_to_zero(self, request, queryset):
         queryset.update(last_question_id=0)
     set_last_question_id_to_zero.short_description = "Установить last_question_id в 0 для выбранных пользователей"
+
+class KmbQuestionStorageAdmin(admin.ModelAdmin):
+        list_display = ('question_text', 'correct_answer')
+        search_fields = ('question_text',)
+
+admin.site.register(KmbQuestionStorage, KmbQuestionStorageAdmin)
+
+class KmbAnswerStorageAdmin(admin.ModelAdmin):
+        list_display = ('user', 'question', 'answer', 'right_answer')
+        search_fields = ('user__username', 'question__question_text')
+
+admin.site.register(KmbAnswerStorage, KmbAnswerStorageAdmin)
