@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import QuestionStorageGame, AnswerStorageGame, QuestionTraining, AnswerTraining, KmbAnswerStorage, KmbQuestionStorage
+from .models import QuestionStorageGame, AnswerStorageGame, QuestionTraining, AnswerTraining, KmbAnswerStorage, KmbQuestionStorage, UserResultsAccess, UserResultsKmbAccess
 from django.db.models import F
 import random
 from django.urls import reverse
@@ -91,9 +91,11 @@ def resultinfo(request):
 
 @login_required(login_url='/login/')
 def user_results(request):
+    if not UserResultsAccess.objects.first().is_access_enabled:
+        return redirect('/gamemenu')  # Перенаправьте пользователя на другую страницу
+
     user_answers = AnswerStorageGame.objects.filter(user=request.user)
     return render(request, 'user_results.html', {'user_answers': user_answers})
-
 @login_required(login_url='/login/')
 def game_menu(request):
     return render(request, 'gamemenu.html')
@@ -198,5 +200,8 @@ def resultinfo_kmb(request):
 
 @login_required(login_url='/login/')
 def user_results_kmb(request):
+    if not UserResultsKmbAccess.objects.first().is_access_enabled:
+        return redirect('/kmb')  # Аналогичное перенаправление
+
     user_answers = KmbAnswerStorage.objects.filter(user=request.user)
     return render(request, 'user_results_kmb.html', {'user_answers': user_answers})

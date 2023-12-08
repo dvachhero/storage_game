@@ -38,6 +38,12 @@ class Position(models.Model):
     def __str__(self):
         return self.name
 
+class Division(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     full_name = models.CharField(max_length=255)
@@ -45,6 +51,7 @@ class UserProfile(models.Model):
     last_question_id = models.IntegerField(default=0)
     last_question_id_kmb = models.IntegerField(default=0)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
+    division = models.ForeignKey(Division, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.full_name
@@ -115,3 +122,11 @@ class KmbAnswerStorage(models.Model):
 
     class Meta:
         db_table = 'kmb_answers_storage'
+
+#Управление доступом к результатам
+
+class UserResultsAccess(models.Model):
+    is_access_enabled = models.BooleanField(default=False)
+
+class UserResultsKmbAccess(models.Model):
+    is_access_enabled = models.BooleanField(default=False)

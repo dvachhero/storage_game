@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import QuestionStorageGame, AnswerStorageGame, UserProfile, Position, AnswerTraining, QuestionTraining, KmbAnswerStorage, KmbQuestionStorage
+from .models import QuestionStorageGame, AnswerStorageGame, UserProfile, Position, AnswerTraining, QuestionTraining, KmbAnswerStorage, KmbQuestionStorage, Division, UserResultsAccess, UserResultsKmbAccess
 
 admin.site.register(QuestionStorageGame)
 admin.site.register(Position)
+admin.site.register(Division)
 
 class QuestionTrainingAdmin(admin.ModelAdmin):
     list_display = [field.name for field in QuestionTraining._meta.fields]
@@ -29,10 +30,10 @@ class AnswerStorageGameAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'full_name', 'city', 'position', 'last_question_id', 'last_question_id_kmb')
-    list_filter = ('position',)
+    list_display = ('user', 'full_name', 'city', 'position', 'division', 'last_question_id', 'last_question_id_kmb')
+    list_filter = ('position', 'division',)
     search_fields = ('full_name', 'city')
-    fields = ('user', 'full_name', 'city', 'position', 'last_question_id', 'last_question_id_kmb')
+    fields = ('user', 'full_name', 'city', 'position', 'division', 'last_question_id', 'last_question_id_kmb')
     actions = ['set_last_question_id_to_zero']
 
     def set_last_question_id_to_zero(self, request, queryset):
@@ -50,3 +51,27 @@ class KmbAnswerStorageAdmin(admin.ModelAdmin):
         search_fields = ('user__username', 'question__question_text')
 
 admin.site.register(KmbAnswerStorage, KmbAnswerStorageAdmin)
+
+@admin.register(UserResultsAccess)
+class UserResultsAccessAdmin(admin.ModelAdmin):
+    actions = ['enable_access', 'disable_access']
+
+    def enable_access(self, modeladmin, request, queryset):
+        queryset.update(is_access_enabled=True)
+    enable_access.short_description = "Enable access to User Results view"
+
+    def disable_access(self, modeladmin, request, queryset):
+        queryset.update(is_access_enabled=False)
+    disable_access.short_description = "Disable access to User Results view"
+
+@admin.register(UserResultsKmbAccess)
+class UserResultsKmbAccessAdmin(admin.ModelAdmin):
+    actions = ['enable_access', 'disable_access']
+
+    def enable_access(self, modeladmin, request, queryset):
+        queryset.update(is_access_enabled=True)
+    enable_access.short_description = "Enable access to User Results view"
+
+    def disable_access(self, modeladmin, request, queryset):
+        queryset.update(is_access_enabled=False)
+    disable_access.short_description = "Disable access to User Results view"
