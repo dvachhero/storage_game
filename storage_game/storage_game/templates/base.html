@@ -160,6 +160,26 @@
                border-radius: 5px; /* скругленные углы */
                margin-bottom: 0;
         }
+
+        @media screen and (max-width: 768px) {
+                .container {
+                    width: 80%;
+                    padding: 20px;
+                }
+
+                .header img {
+                    height: auto;
+                    width: 100%;
+                }
+
+                .header-text, .subtext {
+                    font-size: 1em;
+                }
+
+                input[type="text"], input[type="password"], button, input[type="submit"] {
+                    width: 100%;
+                }
+        }
     </style>
 </head>
 <body>
