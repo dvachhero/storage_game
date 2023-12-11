@@ -44,6 +44,17 @@ class Division(models.Model):
     def __str__(self):
         return self.name
 
+class ResponsiblePerson(models.Model):
+    full_name = models.CharField(max_length=255)
+    bitrix_user_id = models.IntegerField()  # ID пользователя в Битрикс
+
+    def __str__(self):
+        return self.full_name
+
+    class Meta:
+        db_table = 'responsible_persons'
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     full_name = models.CharField(max_length=255)
@@ -52,6 +63,7 @@ class UserProfile(models.Model):
     last_question_id_kmb = models.IntegerField(default=0)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
     division = models.ForeignKey(Division, on_delete=models.SET_NULL, null=True, blank=True)
+    responsible = models.ForeignKey(ResponsiblePerson, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_users')
 
     def __str__(self):
         return self.full_name

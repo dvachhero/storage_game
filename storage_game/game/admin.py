@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import QuestionStorageGame, AnswerStorageGame, UserProfile, Position, AnswerTraining, QuestionTraining, KmbAnswerStorage, KmbQuestionStorage, Division, UserResultsAccess, UserResultsKmbAccess
+from .models import (QuestionStorageGame, AnswerStorageGame, UserProfile, Position, AnswerTraining, QuestionTraining, KmbAnswerStorage, KmbQuestionStorage,
+                     Division, UserResultsAccess, UserResultsKmbAccess, ResponsiblePerson)
 
 admin.site.register(QuestionStorageGame)
 admin.site.register(Position)
@@ -30,15 +31,19 @@ class AnswerStorageGameAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'full_name', 'city', 'position', 'division', 'last_question_id', 'last_question_id_kmb')
-    list_filter = ('position', 'division',)
-    search_fields = ('full_name', 'city')
-    fields = ('user', 'full_name', 'city', 'position', 'division', 'last_question_id', 'last_question_id_kmb')
+    list_display = ('user', 'full_name', 'city', 'position', 'division', 'last_question_id', 'last_question_id_kmb', 'get_responsible_full_name')
+    list_filter = ('position', 'division', 'responsible',)
+    search_fields = ('full_name', 'city', 'user__username',)  # здесь изменено
+    fields = ('user', 'full_name', 'city', 'position', 'division', 'last_question_id', 'last_question_id_kmb', 'responsible',)
     actions = ['set_last_question_id_to_zero']
 
     def set_last_question_id_to_zero(self, request, queryset):
         queryset.update(last_question_id=0)
     set_last_question_id_to_zero.short_description = "Установить last_question_id в 0 для выбранных пользователей"
+
+    def get_responsible_full_name(self, obj):
+        return obj.responsible.full_name if obj.responsible else None
+    get_responsible_full_name.short_description = 'Responsible Person'
 
 class KmbQuestionStorageAdmin(admin.ModelAdmin):
         list_display = ('question_text', 'correct_answer')
@@ -75,3 +80,8 @@ class UserResultsKmbAccessAdmin(admin.ModelAdmin):
     def disable_access(self, modeladmin, request, queryset):
         queryset.update(is_access_enabled=False)
     disable_access.short_description = "Disable access to User Results view"
+
+@admin.register(ResponsiblePerson)
+class ResponsiblePersonAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'bitrix_user_id')
+    search_fields = ('full_name',)
