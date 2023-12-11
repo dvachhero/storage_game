@@ -101,7 +101,7 @@ class AnswerTraining(models.Model):
     correct_sequence = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.user.username} - {self.question.question_text}"
+        return f"{self.user.username} - Правильный ответ: {self.is_correct}, Серия: {self.correct_sequence}"
 
 
 #Курс молодого бойца вопросы и ответы
