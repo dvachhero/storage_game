@@ -2,12 +2,12 @@
 {% extends 'base.html' %}
 
 {% block subtext %}
-    <div class="subtext">Перед игрой ознакомьтесь с правилами</div>
+    <div class="subtext">Перед использованием ознакомьтесь с инструкцией</div>
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1>Правила игры</h1>
+        <h1>Инструкция к приложению</h1>
         <p>Здесь вы можете написать правила вашей игры. Это могут быть инструкции о том, как играть, какие правила следует соблюдать, и так далее.</p>
         <button onclick="window.location.href='{% url 'home' %}'">Вернуться в меню</button>
     </div>
