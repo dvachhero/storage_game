@@ -36,6 +36,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'storage_game.custom_middleware.CustomPortMiddleware',
 ]
 
 ROOT_URLCONF = 'storage_game.urls'

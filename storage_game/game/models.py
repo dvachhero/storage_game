@@ -96,7 +96,6 @@ class QuestionTraining(models.Model):
 
 class AnswerTraining(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(QuestionTraining, on_delete=models.CASCADE)
     selected_answer = models.CharField(max_length=100)
     is_correct = models.BooleanField()
     correct_sequence = models.IntegerField(default=0)

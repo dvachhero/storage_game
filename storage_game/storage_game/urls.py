@@ -6,7 +6,7 @@ from tutorial.views import kmb_view, kmbsubmenu_view, content_view
 from django.shortcuts import redirect
 
 def redirect_to_login(request):
-    return redirect('/login/')
+    return redirect('login')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

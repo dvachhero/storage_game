@@ -20,28 +20,28 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def home(request):
     return render(request, 'home.html')
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def logout_view(request):
     logout(request)
-    return redirect('/login/')
+    return redirect('login')
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def play(request):
     return render(request, 'home.html')
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def result(request):
     return render(request, 'home.html')
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def rules(request):
     return render(request, 'rules.html')
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def game(request):
     question = QuestionStorageGame.objects.filter(
         id__gt=request.user.profile.last_question_id).first()
@@ -79,7 +79,7 @@ def game(request):
 
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def resultinfo(request):
     user = request.user
 
@@ -89,14 +89,14 @@ def resultinfo(request):
     total_questions = QuestionStorageGame.objects.count()
     return render(request, 'resultinfo.html', {'correct_answers': correct_answers, 'total_questions': total_questions})
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def user_results(request):
     if not UserResultsAccess.objects.first().is_access_enabled:
         return redirect('/gamemenu')  # Перенаправьте пользователя на другую страницу
 
     user_answers = AnswerStorageGame.objects.filter(user=request.user)
     return render(request, 'user_results.html', {'user_answers': user_answers})
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def game_menu(request):
     return render(request, 'gamemenu.html')
 
@@ -107,29 +107,28 @@ def game_training(request):
         request.session['current_sequence'] = 0
 
     if request.method == 'POST':
-        question_id = request.POST.get('question_id')
         selected_answer = request.POST.get('answer')
+        question_id = request.POST.get('question_id')
         question = get_object_or_404(QuestionTraining, pk=question_id)
 
         # Проверяем правильность ответа
         is_correct = (selected_answer == question.answer_1)
 
         if is_correct:
-            # Увеличиваем текущую серию в сессии
             request.session['current_sequence'] += 1
         else:
-            # Получаем существующую запись или создаем новую
             user_answer, created = AnswerTraining.objects.get_or_create(
                 user=request.user,
-                defaults={'correct_sequence': request.session['current_sequence']}
+                defaults={
+                    'correct_sequence': request.session['current_sequence'],
+                    'is_correct': is_correct  # Установка значения is_correct
+                }
             )
 
-            # Обновляем запись, если текущая серия лучше
             if request.session['current_sequence'] > user_answer.correct_sequence:
                 user_answer.correct_sequence = request.session['current_sequence']
                 user_answer.save()
 
-            # Сбрасываем текущую серию в сессии и перенаправляем на страницу с результатами
             request.session['current_sequence'] = 0
             return HttpResponseRedirect(reverse('resultinfotraining'))
 
@@ -153,7 +152,7 @@ def result_info_training(request):
 
 #Курс молодого бойца игра
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def game_kmb(request):
     question = KmbQuestionStorage.objects.filter(
         id__gt=request.user.profile.last_question_id_kmb).first()  # Используем last_question_id_kmb здесь
@@ -190,7 +189,7 @@ def game_kmb(request):
     random.shuffle(answers)
     return render(request, 'kmb.html', {'question': question, 'answers': answers})
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def resultinfo_kmb(request):
     correct_answers = KmbAnswerStorage.objects.filter(
         user=request.user, right_answer=F('answer')).count()
@@ -198,7 +197,7 @@ def resultinfo_kmb(request):
     total_questions = KmbQuestionStorage.objects.count()
     return render(request, 'resultinfokmb.html', {'correct_answers': correct_answers, 'total_questions': total_questions})
 
-@login_required(login_url='/login/')
+@login_required(login_url='login')
 def user_results_kmb(request):
     if not UserResultsKmbAccess.objects.first().is_access_enabled:
         return redirect('/kmb')  # Аналогичное перенаправление
