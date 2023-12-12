@@ -183,11 +183,11 @@ def game_kmb(request):
 
         request.user.profile.last_question_id_kmb = question.id  # Обновляем last_question_id_kmb
         request.user.profile.save()
-        return redirect('kmb')
+        return redirect('game_kmb')
 
     answers = [question.answer1, question.answer2, question.answer3, question.answer4]
     random.shuffle(answers)
-    return render(request, 'kmb.html', {'question': question, 'answers': answers})
+    return render(request, 'gamekmb.html', {'question': question, 'answers': answers})
 
 @login_required(login_url='login')
 def resultinfo_kmb(request):
