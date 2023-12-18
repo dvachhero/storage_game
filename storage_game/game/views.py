@@ -204,3 +204,6 @@ def user_results_kmb(request):
 
     user_answers = KmbAnswerStorage.objects.filter(user=request.user)
     return render(request, 'user_results_kmb.html', {'user_answers': user_answers})
+
+
+#Для след режима
