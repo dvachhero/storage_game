@@ -2,6 +2,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
   <h1>Меню приложения</h1>
   <div class="menu">
     <button onclick="window.location.href='{% url 'rules' %}'">Правила</button>
@@ -10,4 +11,5 @@
     <button onclick="window.location.href='{% url 'chat_page' %}'">КИТ.Ментор: Склад</button>
     <button onclick="window.location.href='{% url 'logout' %}'">Выйти из игры</button>
   </div>
+</div>
 {% endblock %}

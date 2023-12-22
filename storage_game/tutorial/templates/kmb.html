@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
 <div>
     <h1>Выберите категорию:</h1>
     {% for button in buttons %}
@@ -16,4 +17,5 @@
 <a href="{% url 'game_kmb' %}" class="btn">Подтверди свои знания</a>
 <a href="{% url 'user_results_kmb' %}" class="btn">Результаты теста</a>
 <a href="{% url 'home' %}" class="btn">Назад в меню приложения</a>
+</div>
 {% endblock %}

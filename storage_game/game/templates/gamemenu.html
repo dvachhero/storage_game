@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
   <h1>Выбор режима игры</h1>
   <div class="menu">
     <button onclick="window.location.href='{% url 'game' %}'">Ежемесячное тестирование</button>
@@ -12,4 +13,5 @@
     <button onclick="window.location.href='{% url 'user_results' %}'">Результаты</button>
     <button onclick="window.location.href='{% url 'home' %}'">Назад в меню приложения</button>
   </div>
+</div>
 {% endblock %}

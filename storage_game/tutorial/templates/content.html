@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
 <div>
     <h1>Контент:</h1>
     {% for content in contents %}
@@ -34,6 +35,7 @@
         {% endif %}
     {% endif %}
 </div>
-
 <a href="{% url 'kmbsubmenu' button_id %}" class="btn">Назад к темам</a>
+</div>
+</div>
 {% endblock %}

@@ -61,6 +61,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'storage_game.wsgi.application'
 
+LOGIN_URL = '/storage_game/login'
+LOGIN_REDIRECT_URL = '/storage_game/home'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -106,11 +108,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+SECURE_PROXY_SSL_HEADER = None
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

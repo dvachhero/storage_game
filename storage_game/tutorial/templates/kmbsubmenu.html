@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
 <div>
     <h1>Выберите пункт подменю:</h1>
     {% for submenu in submenus %}
@@ -14,4 +15,5 @@
     {% endfor %}
 </div>
 <a href="{% url 'kmb' %}" class="btn">Назад к курсам</a>
+</div>
 {% endblock %}

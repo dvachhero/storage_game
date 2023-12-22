@@ -1,167 +1,170 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}KIT: Склад{% endblock %}</title>
-    <style>
-        body {
-            background-color: #333333;
-            color: #FFF9CF;
-            margin: 0;
-            font-family: Finlandica, sans-serif;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}KIT: Склад{% endblock %}</title>
+        <link rel="shortcut icon" href="http://94.241.138.149/static/favicon.ico">
+        <style>
+            body {
+                background-image: url("http://94.241.138.149/static/bg.png");
+                background-size: cover; /* Растягивает изображение, чтобы оно занимало всю площадь фона */
+                background-repeat: no-repeat; /* Запрет повтора изображения */
+                background-attachment: fixed; /* Фиксированный фон при прокрутке */
+                color: #FFF9CF;
+                margin: 0;
+                font-family: Finlandica, sans-serif;
+            }
 
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 1px;
-            padding: 5px;
-            flex-direction: column;
-        }
+            .header {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 1px;
+                padding: 5px;
+                flex-direction: column;
+            }
 
-        .header img {
-            height: 230px;
-            width: 400px;
-            margin-right: 0px;
-        }
 
-        .header-text {
-            font-size: 2em;
-            font-weight: bold;
-            text-align: center;
-        }
+            .header img {
+                height: 230px;
+                width: 400px;
+                margin-right: 0px;
+            }
 
-        .subtext {
-            font-size: 1.0em;
-            margin-top: 5px;
-            line-height: 30px;
-            text-align: center;
-        }
+            .header-text {
+                font-size: 2em;
+                font-weight: bold;
+                text-align: center;
+            }
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 1px 0;
-        }
+            .subtext {
+                font-size: 1.0em;
+                margin-top: 0px;
+                line-height: 30px;
+                text-align: center;
+            }
 
-        .container {
-            text-align: center;
-            max-width: 300px;
-            margin: 25px auto;
-            padding: 30px;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.2);
-        }
 
-        h1 {
-            font-size: 1em;
-            margin-bottom: 20px;
-        }
+            .container {
+                text-align: center;
+                max-width: 330px;
+                margin: 25px auto;
+                padding: 30px;
+                border: 2px solid #FFF9CF;
+                border-radius: 10px;
+                background-color: #333333;
+            }
 
-        input[type="file"], input[type="submit"], .btn {
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #FFF9CF;
-            color: #333333;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s, color 0.3s;
-        }
 
-        button[type="submit"] {
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #FFF9CF;
-            color: #333333;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s, color 0,3s;
-        }
 
-        input[type="submit"]:hover, .btn:hover {
-            background-color: #333333;
-            color: #FFF9CF;
-        }
+            .container h1 {
+                font-size: 1.3em;
+            }
 
-        .instruction-btn {
-            font-size: 1.0em;
-            background-color: #333333;
-            color: #FFF9CF
-        }
+            input[type="file"], input[type="submit"], .btn {
+                padding: 10px 20px;
+                font-size: 1em;
+                border: 1px #333333;
+                border-radius: 5px;
+                cursor: pointer;
+                background-color: #FFF9CF;
+                color: #333333;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 20px;
+                text-align: center;
+                text-decoration: none;
+                transition: background-color 0.3s, color 0.3s;
+            }
 
-        button {
-             padding: 10px 20px;
-             font-size: 1em;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-             background-color: #FFF9CF;
-             color: #333333;
-             display: block;
-             width: 100%;
-             box-sizing: border-box;
-             margin-bottom: 20px;
-             text-align: center;
-             text-decoration: none;
-             transition: background-color 0.3s, color 0.3s;
-        }
+            button[type="submit"] {
+                padding: 10px 20px;
+                font-size: 1em;
+                border: none #333333;
+                border-radius: 5px;
+                cursor: pointer;
+                background-color: #FFF9CF;
+                color: #333333;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 20px;
+                text-align: center;
+                text-decoration: none;
+                transition: background-color 0.3s, color 0,3s;
+            }
 
-        button:hover {
-             background-color: #333333;
-             color: #FFF9CF;
-        }
+            input[type="submit"]:hover, .btn:hover {
+                background-color: #333333;
+                color: #FFF9CF;
+                border: 1px solid #FFF9CF;
+            }
 
-        input[type="text"], input[type="password"] {
-             background-color: #333333;
-             color: #FFF9CF;
-             padding: 5px;
-             border: none;
-             border-radius: 5px;
-             margin-bottom: 5px;
-             width: 50%;
-        }
+            .instruction-btn {
+                font-size: 1.0em;
+                background-color: #333333;
+                color: #FFF9CF
+            }
 
-        .img-container img {
-              max-width: 100%;
-              height: auto;
-              cursor: pointer;
-              transition: transform 0.2s;
-              border-radius: 10px;
-              border: 2px solid #FFF9CF;
-        }
+            button {
+                 padding: 10px 20px;
+                 font-size: 1em;
+                 border: none;
+                 border-radius: 5px;
+                 cursor: pointer;
+                 background-color: #FFF9CF;
+                 color: #333333;
+                 display: block;
+                 width: 100%;
+                 box-sizing: border-box;
+                 margin-bottom: 20px;
+                 text-align: center;
+                 text-decoration: none;
+                 transition: background-color 0.3s, color 0.3s;
+            }
 
-        .img-container:hover img:hover {
-              transform: scale(1.5);
-        }
+            button:hover {
+                 background-color: #333333;
+                 color: #FFF9CF;
+                 border: 1px solid #FFF9CF;
+            }
 
-        .submenu {
-               background-color: #212121; /* светлый фон для контраста */
-               border: 1px solid #FFF9CF; /* тонкая серая рамка */
-               box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* небольшая тень для объёмности */
-               padding: 10px; /* отступы внутри подменю */
-               border-radius: 5px; /* скругленные углы */
-               margin-bottom: 0;
-        }
+            input[type="text"], input[type="password"] {
+                 background-color: #333333;
+                 color: #FFF9CF;
+                 padding: 5px;
+                 border: none;
+                 border-radius: 5px;
+                 margin-bottom: 5px;
+                 width: 50%;
+            }
 
-        @media screen and (max-width: 768px) {
+            .img-container img {
+                  max-width: 100%;
+                  height: auto;
+                  cursor: pointer;
+                  transition: transform 0.2s;
+                  border-radius: 10px;
+                  border: 2px solid #FFF9CF;
+            }
+
+            .img-container:hover img:hover {
+                  transform: scale(1.5);
+            }
+
+            .submenu {
+                background-color: #212121; /* светлый фон для контраста */
+                border: 1px solid #FFF9CF; /* тонкая серая рамка */
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* небольшая тень для объёмности */
+                padding: 10px; /* отступы внутри подменю */
+                border-radius: 5px; /* скругленные углы */
+                margin-bottom: 0;
+            }
+
+            @media screen and (max-width: 768px) {
                 .container {
                     width: 80%;
                     padding: 20px;
@@ -179,27 +182,26 @@
                 input[type="text"], input[type="password"], button, input[type="submit"] {
                     width: 100%;
                 }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        {% block header %}
-        <div class="logo-container">
-            <img src="{% block logo %}https://i.ibb.co/FXFR9nZ/image.png{% endblock %}" alt="logo">
-        </div>
-            <div class="header-text">{% block header_text %}KIT: СКЛАД{% endblock %}</div>
-            <div class="subtext">{% block subtext %}Добро пожаловать{% endblock %}</div>
-            {% endblock %}
-        </div>
-    </div>
+            }
+        </style>
+    </head>
+    <body>
+            <div class="header">
+                {% block header %}
+                <div class="header-content">
+                    <div class="logo-container">
+                        <img src="{% block logo %}https://i.ibb.co/FXFR9nZ/image.png{% endblock %}" alt="logo">
+                    </div>
+                    <div class="header-text">{% block header_text %}KIT: СКЛАД{% endblock %}</div>
+                    <div class="subtext">{% block subtext %}Добро пожаловать{% endblock %}</div>
+                </div>
 
-    <div class="container">
-        {% block content %}
+                {% endblock %}
+            </div>
+                {% block content %}
+                {% endblock %}
 
-        {% endblock %}
-    </div>
-    {% block scripts %}
-    {% endblock %}
-</body>
+                {% block scripts %}
+                {% endblock %}
+    </body>
 </html>

@@ -3,11 +3,36 @@
 {% block title %}Вход в систему{% endblock %}
 
 {% block content %}
+<style>
+    /* Стили для полей формы */
+    .login-container p {
+        margin-bottom: 5px; /* Уменьшаем отступ снизу для каждого элемента формы */
+    }
+
+    .login-container label {
+        display: block; /* Заставляем метку занимать всю ширину */
+        margin-bottom: 10px; /* Добавляем отступ снизу для метки */
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        border: 2px solid #FFF9CFFF; /* Обводка поля */
+        padding: 5px;
+        border-radius: 4px;
+        width: 100%; /* Устанавливаем ширину поля */
+        box-sizing: border-box; /* Чтобы padding не влиял на общую ширину */
+    }
+
+</style>
+
+<div class="container">
 <div class="login-container">
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Войти</button>
     </form>
+</div>
 </div>
 {% endblock %}
